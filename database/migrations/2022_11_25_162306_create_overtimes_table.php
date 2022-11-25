@@ -15,10 +15,10 @@ class CreateOvertimesTable extends Migration
     {
         Schema::create('overtimes', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('employee_id')->constrained('employees')->comment('ID Karyawan');
-            $table->string('date')->comment('Tanggal Lembur');
-            $table->string('time_started')->comment('Mulai Lembur');
-            $table->string('time_ended')->comment('Selesai Lembur');
+            $table->foreignId('employee_id')->comment('ID Karyawan')->constrained('employees');
+            $table->date('date')->comment('Tanggal Lembur');
+            $table->time('time_started')->comment('Mulai Lembur');
+            $table->time('time_ended')->comment('Selesai Lembur');
             $table->timestamps();
         });
     }

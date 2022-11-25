@@ -2,6 +2,10 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SettingController;
+use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\OvertimeController;
+use App\Http\Controllers\ReferenceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,11 +28,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 |--------------------------------------------------------------------------
 */
 
-/*
-|--------------------------------------------------------------------------
-| Reference Routes
-|--------------------------------------------------------------------------
-*/
+Route::resource('settings', SettingController::class)
+    ->only('update');
 
 /*
 |--------------------------------------------------------------------------
@@ -36,8 +37,26 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 |--------------------------------------------------------------------------
 */
 
+Route::resource('employees', EmployeeController::class)
+    ->only('store');
+
 /*
 |--------------------------------------------------------------------------
 | Overtime Routes
 |--------------------------------------------------------------------------
 */
+
+Route::resource('overtimes', OvertimeController::class)
+    ->only('store');
+
+Route::get('overtimes-pays/calculate',[OvertimeController::class, 'calculate'])
+    ->name('overtimes-pays.calculate');
+
+/*
+|--------------------------------------------------------------------------
+| Reference Routes
+|--------------------------------------------------------------------------
+*/
+
+Route::resource('references', ReferenceController::class)
+    ->only('index');
