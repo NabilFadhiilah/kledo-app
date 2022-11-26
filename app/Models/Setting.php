@@ -15,4 +15,14 @@ class Setting extends Model
      * @var array
      */
     protected $guarded = ['id'];
+
+    /**
+     * Get the reference that owns the Setting
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function reference()
+    {
+        return $this->belongsTo(Reference::class,'value','id');
+    }
 }

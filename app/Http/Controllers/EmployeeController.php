@@ -36,7 +36,7 @@ class EmployeeController extends Controller
         $this->employeeService = $employeeService;
         $this->employeeValidation = $employeeValidation;
     }
-    
+
     /**
      * Display a listing of the resource.
      *
@@ -56,7 +56,7 @@ class EmployeeController extends Controller
     {
         //
     }
-
+    
     /**
      * Store a newly created resource in storage.
      *
@@ -65,7 +65,21 @@ class EmployeeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validation = $this->employeeValidation->store($request);
+
+        if (!$validation->status) {
+            return response()->json([
+                'message' => 'Validation Error',
+                'errors' => $validation->message
+            ], 422);
+        }
+
+        $result = $this->employeeService->store($request);
+
+        return response()->json([
+            'status' => $result->status,
+            'message' => $result->message,
+        ], 200);
     }
 
     /**

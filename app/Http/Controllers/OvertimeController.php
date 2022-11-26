@@ -36,7 +36,7 @@ class OvertimeController extends Controller
         $this->overtimeService = $overtimeService;
         $this->overtimeValidation = $overtimeValidation;
     }
-    
+
     /**
      * Display a listing of the resource.
      *
@@ -65,7 +65,21 @@ class OvertimeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validation = $this->overtimeValidation->store($request);
+
+        if (!$validation->status) {
+            return response()->json([
+                'message' => 'Validation Error',
+                'errors' => $validation->message
+            ], 422);
+        }
+
+        $result = $this->overtimeService->store($request);
+
+        return response()->json([
+            'status' => $result->status,
+            'message' => $result->message,
+        ], 200);
     }
 
     /**
@@ -111,5 +125,31 @@ class OvertimeController extends Controller
     public function destroy(Overtime $overtime)
     {
         //
+    }
+
+    /**
+     * Calculate overtime.
+     * 
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function calculate(Request $request)
+    {
+        $validation = $this->overtimeValidation->calculate($request);
+        
+        if (!$validation->status) {
+            return response()->json([
+                'message' => 'Validation Error',
+                'errors' => $validation->message
+            ], 422);
+        }
+
+        $result = $this->overtimeService->calculate($request);
+
+        return response()->json([
+            'status' => $result->status,
+            'message' => $result->message,
+            'data' => $result->data
+        ], 200);
     }
 }

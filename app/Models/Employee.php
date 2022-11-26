@@ -15,4 +15,14 @@ class Employee extends Model
      * @var array
      */
     protected $guarded = ['id'];
+
+    /**
+     * Get the overtimes record associated with the employee.
+     * 
+     * @return  \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function overtimes()
+    {
+        return $this->hasMany(Overtime::class);
+    }
 }

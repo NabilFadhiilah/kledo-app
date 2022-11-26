@@ -65,7 +65,7 @@ class SettingController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // 
     }
 
     /**
@@ -99,7 +99,21 @@ class SettingController extends Controller
      */
     public function update(Request $request, Setting $setting)
     {
-        //
+        $validation = $this->settingValidation->update($request);
+        
+        if (!$validation->status) {
+            return response()->json([
+                'message' => 'Validation Error',
+                'errors' => $validation->message
+            ], 422);
+        }
+
+        $result = $this->settingService->update($request);
+
+        return response()->json([
+            'status' => $result->status,
+            'message' => $result->message,
+        ], 200);
     }
 
     /**
